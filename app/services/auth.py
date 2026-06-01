@@ -12,9 +12,9 @@ class AuthService:
         name: str,
         phone: str,
     ) -> User:
-
         stmt = select(User).where(
-            User.username == username
+            User.username == username,
+            User.phone == phone
         )
 
         result = await db.execute(stmt)

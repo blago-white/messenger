@@ -1,8 +1,13 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+from app.api.router import api_router
+
+app = FastAPI(
+    title="Messenger API"
+)
+
+app.include_router(api_router)
 
 
-@app.get("/")
-async def root():
-    return {"status": "ok"}
+for route in app.routes:
+    print(route.path)
