@@ -8,6 +8,20 @@ import jwt
 from app.core.config import settings
 
 
+def get_user_id_from_access_token(
+    token: str,
+) -> UUID:
+
+    payload = decode_token(token)
+
+    if payload.get("type") != "access":
+        raise ValueError(
+            "Invalid token type"
+        )
+
+    return UUID(payload["sub"])
+
+
 def create_access_token(user_id: UUID) -> str:
     expire = datetime.now(UTC) + timedelta(
         minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
@@ -50,3 +64,19 @@ def decode_token(token: str) -> dict:
         settings.JWT_SECRET_KEY,
         algorithms=[settings.JWT_ALGORITHM],
     )
+
+
+def get_user_id_from_refresh_token(
+    refresh_token: str,
+) -> UUID:
+
+    payload = decode_token(
+        refresh_token
+    )
+
+    if payload.get("type") != "refresh":
+        raise ValueError(
+            "Invalid token type"
+        )
+
+    return UUID(payload["sub"])

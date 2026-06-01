@@ -40,3 +40,7 @@ class RegisterRequest(BaseSchema):
         min_length=6,
         max_length=20
     )
+
+
+class RefreshTokenRequest(BaseSchema):
+    refresh_token: str
