@@ -39,6 +39,7 @@ jobs:
       POSTGRES_DB: messenger_test
       POSTGRES_PORT: 5432
       POSTGRES_HOST: db
+      POSTGRES_TEST_DB: messenger_test
 
       JWT_SECRET_KEY: test-secret
       JWT_ALGORITHM: HS256
