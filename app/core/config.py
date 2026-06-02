@@ -2,10 +2,10 @@ from pydantic_settings import BaseSettings
 from pydantic_settings import SettingsConfigDict
 
 
-class Settings(BaseSettings):
+class CommonSettings(BaseSettings):
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
-    POSTGRES_DB: str
+
     POSTGRES_HOST: str
     POSTGRES_PORT: int
 
@@ -21,17 +21,6 @@ class Settings(BaseSettings):
     )
 
     @property
-    def database_url(self) -> str:
-        return (
-            "postgresql+asyncpg://"
-            f"{self.POSTGRES_USER}:"
-            f"{self.POSTGRES_PASSWORD}@"
-            f"{self.POSTGRES_HOST}:"
-            f"{self.POSTGRES_PORT}/"
-            f"{self.POSTGRES_DB}"
-        )
-
-    @property
     def alembic_database_url(self) -> str:
         return (
             f"postgresql://"
@@ -43,4 +32,35 @@ class Settings(BaseSettings):
         )
 
 
+class TestSettings(CommonSettings):
+    POSTGRES_TEST_DB: str
+
+    @property
+    def database_url(self) -> str:
+        return (
+            "postgresql+asyncpg://"
+            f"{self.POSTGRES_USER}:"
+            f"{self.POSTGRES_PASSWORD}@"
+            f"{self.POSTGRES_HOST}:"
+            f"{self.POSTGRES_PORT}/"
+            f"{self.POSTGRES_TEST_DB}"
+        )
+
+
+class Settings(CommonSettings):
+    POSTGRES_DB: str
+
+    @property
+    def database_url(self) -> str:
+        return (
+            "postgresql+asyncpg://"
+            f"{self.POSTGRES_USER}:"
+            f"{self.POSTGRES_PASSWORD}@"
+            f"{self.POSTGRES_HOST}:"
+            f"{self.POSTGRES_PORT}/"
+            f"{self.POSTGRES_DB}"
+        )
+
+
 settings = Settings()
+test_settings = TestSettings()
