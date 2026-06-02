@@ -25,4 +25,22 @@ class TokenResponse(BaseSchema):
     token_type: str = "Bearer"
 
 
+class RegisterRequest(BaseSchema):
+    username: str = Field(
+        min_length=3,
+        max_length=32
+    )
 
+    name: str = Field(
+        min_length=1,
+        max_length=64
+    )
+
+    phone: str = Field(
+        min_length=6,
+        max_length=20
+    )
+
+
+class RefreshTokenRequest(BaseSchema):
+    refresh_token: str

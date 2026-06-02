@@ -1,13 +1,9 @@
-import dotenv
+from fastapi import FastAPI
 
-dotenv.load_dotenv()
+from app.api.router import api_router
 
-import asyncio
+app = FastAPI(
+    title="Messenger API"
+)
 
-from app.db.init_db import create_tables
-
-asyncio.run(create_tables())
-
-# from models.base import Base
-#
-# print(Base.metadata.tables.keys())
+app.include_router(api_router)
