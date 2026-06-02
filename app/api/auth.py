@@ -5,19 +5,17 @@ from app.api.dependencies import get_current_user
 from app.core.security import (
     create_access_token,
     create_refresh_token,
+    get_user_id_from_refresh_token,
 )
 from app.db.database import get_db
 from app.models.user import User
-from app.schemas import UserResponse
+from app.schemas import RefreshTokenRequest, UserResponse
 from app.schemas.auth import (
     RegisterRequest,
     TokenResponse,
 )
-
-from app.core.security import get_user_id_from_refresh_token
 from app.services.auth import AuthService
 from app.services.user import UserService
-from app.schemas import RefreshTokenRequest
 
 router = APIRouter()
 

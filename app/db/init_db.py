@@ -1,7 +1,5 @@
-from app.models.base import Base
 from app.db.database import engine
-
-import app.models
+from app.models.base import Base
 
 
 async def create_tables():

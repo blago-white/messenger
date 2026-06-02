@@ -3,7 +3,6 @@ from fastapi.security import (
     HTTPAuthorizationCredentials,
     HTTPBearer,
 )
-
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.database import get_db
@@ -13,7 +12,6 @@ from app.services.auth import (
     InvalidTokenError,
     UserNotFoundError,
 )
-from app.services.user import UserService
 
 
 def get_auth_service(

@@ -1,11 +1,6 @@
-from sqlalchemy import String
-from sqlalchemy import ForeignKey
-
+from sqlalchemy import ForeignKey, String
 from sqlalchemy.dialects.postgresql import UUID
-
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import BaseModel
 

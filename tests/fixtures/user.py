@@ -1,8 +1,6 @@
-from collections.abc import Callable
 from uuid import uuid4
 
 import pytest_asyncio
-
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.user import User

@@ -1,6 +1,7 @@
 import uuid
+from datetime import UTC, datetime
+
 import jwt
-from datetime import datetime, timedelta, UTC
 
 from app.core import security as sec
 from app.core.config import settings

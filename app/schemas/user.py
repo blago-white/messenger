@@ -1,7 +1,10 @@
 from uuid import UUID
+
 from pydantic import Field
 
 from app.schemas.base import BaseSchema
+
+__all__ = ["UserResponse", "UserUpdate"]
 
 
 class UserResponse(BaseSchema):

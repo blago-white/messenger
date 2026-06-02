@@ -1,11 +1,10 @@
 from collections.abc import AsyncGenerator
 
 import pytest
-
 from fastapi.testclient import TestClient
 
-from app.main import app
 from app.db.database import get_db
+from app.main import app
 
 
 @pytest.fixture

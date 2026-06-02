@@ -1,21 +1,18 @@
-from uuid import uuid4
 from unittest.mock import AsyncMock
+from uuid import uuid4
 
 import pytest
-
 from fastapi.testclient import TestClient
-
-from app.main import app
-from app.models.user import User
 
 from app.api.auth import (
     get_auth_service,
     get_user_service,
 )
-
 from app.api.dependencies import (
     get_current_user,
 )
+from app.main import app
+from app.models.user import User
 
 
 @pytest.fixture
@@ -132,7 +129,7 @@ def test_refresh_success(client):
         get_user_service
     ] = lambda: user_service
 
-    response = client.post(
+    client.post(
         "/auth/refresh",
         json={
             "refresh_token": "fake_token"

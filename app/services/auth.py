@@ -1,15 +1,13 @@
-from urllib.parse import uses_relative
 from uuid import UUID
 
 import jwt
 from sqlalchemy import select
 
 from app.core.security import decode_token
+from app.exceptions.auth import InvalidTokenError, UserNotFoundError
 from app.models.user import User
 from app.services.base import BaseService
 from app.services.user import UserService
-
-from app.exceptions.auth import *
 
 
 class AuthService(BaseService):

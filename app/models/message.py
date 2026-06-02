@@ -1,16 +1,8 @@
-from datetime import datetime
-from datetime import UTC
+from datetime import UTC, datetime
 
-from sqlalchemy import String
-from sqlalchemy import ForeignKey
-from sqlalchemy import DateTime
-from sqlalchemy import Enum
-
+from sqlalchemy import DateTime, Enum, ForeignKey, String
 from sqlalchemy.dialects.postgresql import UUID
-
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import BaseModel
 from .enums import MessageStatus

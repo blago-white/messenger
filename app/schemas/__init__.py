@@ -1,5 +1,5 @@
-from .user import *
+from .attachment import *
 from .auth import *
 from .chat import *
 from .message import *
-from .attachment import *
+from .user import *
