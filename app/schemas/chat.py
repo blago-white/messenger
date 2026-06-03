@@ -1,6 +1,15 @@
 from uuid import UUID
 
+from pydantic import Field
+
 from app.schemas.base import BaseSchema
+
+
+class CreateChatRequest(BaseSchema):
+    username: str = Field(
+        min_length=3,
+        max_length=32,
+    )
 
 
 class ChatListItem(BaseSchema):
@@ -8,11 +17,8 @@ class ChatListItem(BaseSchema):
 
     companion_name: str
     companion_username: str
-    unread_count: int
 
-    companion_avatar: str | None
-    last_message: str | None
+    unread_count: int = 0
 
-
-class CreateChatRequest(BaseSchema):
-    user_id: UUID
+    companion_avatar: str | None = None
+    last_message: str | None = None
