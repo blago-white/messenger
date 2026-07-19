@@ -91,8 +91,6 @@ async def refresh_token(
             )
         )
 
-        print(f"UID: {user_id}")
-
         user = (
             await user_service.get_by_id(
                 user_id,
@@ -116,7 +114,6 @@ async def refresh_token(
         )
 
     except Exception as e:
-        print(str(e))
         raise HTTPException(
             status_code=401,
             detail="Invalid refresh token",

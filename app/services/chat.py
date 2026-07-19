@@ -1,9 +1,11 @@
 from uuid import UUID
 
 from sqlalchemy import func, select
+from sqlalchemy.orm import selectinload
 
 from app.models.chat import Chat
 from app.models.chat_participant import ChatParticipant
+from app.schemas import ChatListItem
 
 from .base import BaseService
 
@@ -55,10 +57,34 @@ class ChatService(BaseService):
 
         return chat
 
-    async def get_user_chats(
+    # async def get_user_chats(
+    #     self,
+    #     user_id: UUID,
+    # ) -> list[Chat]:
+    #
+    #     stmt = (
+    #         select(Chat)
+    #         .join(ChatParticipant)
+    #         .where(
+    #             ChatParticipant.user_id == user_id
+    #         )
+    #         .order_by(
+    #             Chat.created_at.desc()
+    #         )
+    #     )
+    #
+    #     result = await self._db.execute(
+    #         stmt
+    #     )
+    #
+    #     return list(
+    #         result.scalars().unique().all()
+    #     )
+
+    async def get_chat_list(
         self,
         user_id: UUID,
-    ) -> list[Chat]:
+    ) -> list[ChatListItem]:
 
         stmt = (
             select(Chat)
@@ -66,18 +92,56 @@ class ChatService(BaseService):
             .where(
                 ChatParticipant.user_id == user_id
             )
+            .options(
+                selectinload(Chat.participants)
+                .selectinload(ChatParticipant.user),
+                selectinload(Chat.messages),
+            )
             .order_by(
                 Chat.created_at.desc()
             )
         )
 
-        result = await self._db.execute(
-            stmt
-        )
+        result = await self._db.execute(stmt)
 
-        return list(
-            result.scalars().unique().all()
-        )
+        chats = result.scalars().unique().all()
+
+        items = []
+
+        for chat in chats:
+            companion = next(
+                (
+                    participant.user
+                    for participant in chat.participants
+                    if participant.user_id != user_id
+                ),
+                None,
+            )
+
+            if companion is None:
+                continue
+
+            last_message = None
+
+            if chat.messages:
+                last_message = max(
+                    chat.messages,
+                    key=lambda m: m.created_at,
+                ).text
+
+            items.append(
+                ChatListItem(
+                    id=chat.id,
+                    companion_name=companion.name,
+                    companion_username=companion.username,
+                    companion_avatar=companion.avatar,
+                    unread_count=0,
+                    last_message=last_message,
+                )
+            )
+
+        return items
+
 
     async def is_chat_participant(
         self,

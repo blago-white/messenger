@@ -58,11 +58,6 @@ async def get_chats(
     current_user: User = Depends(get_current_user),
     chat_service: ChatService = Depends(get_chat_service),
 ):
-    chats = await chat_service.get_user_chats(current_user.id)
+    chats = await chat_service.get_chat_list(current_user.id)
 
-    return [
-        {
-            "id": chat.id,
-        }
-        for chat in chats
-    ]
+    return chats
